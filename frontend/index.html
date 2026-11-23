@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Служба поддержки — заявки</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="/" aria-label="Бюро — главная">
+          <span>Служба поддержки</span>
+        </a>
+      </aside>
+
+      <main class="main">
+        <header class="page-header">
+          <div class="page-heading"><h1>Заявки</h1><span id="open-summary" class="open-summary">Служба поддержки</span></div>
+          <div class="page-actions">
+            <button class="button button-primary" id="new-ticket">Создать заявку</button>
+          </div>
+        </header>
+
+        <div class="connection-warning" id="connection-warning" hidden>
+          <div><strong>Не удалось загрузить заявки</strong><span>Проверь, что сервер запущен, и попробуй ещё раз.</span></div>
+          <button class="button button-secondary" id="retry">Повторить</button>
+        </div>
+
+        <nav class="navigation" aria-label="Фильтры заявок">
+          <button class="nav-item active" data-filter="all" aria-current="page"><span class="nav-icon inbox-icon" aria-hidden="true"></span><span>Все заявки</span><span class="nav-count" data-count="all">0</span></button>
+          <button class="nav-item" data-filter="new"><span class="nav-icon circle-icon" aria-hidden="true"></span><span>Новые</span><span class="nav-count" data-count="new">0</span></button>
+          <button class="nav-item" data-filter="in_progress"><span class="nav-icon progress-icon" aria-hidden="true"></span><span>В работе</span><span class="nav-count" data-count="in_progress">0</span></button>
+          <button class="nav-item" data-filter="closed"><span class="nav-icon check-icon" aria-hidden="true"></span><span>Закрытые</span><span class="nav-count" data-count="closed">0</span></button>
+        </nav>
+
+        <section class="desk" id="desk" aria-label="Рабочая область заявок">
+          <div class="ticket-pane">
+            <div class="list-toolbar">
+              <label class="search"><span class="search-icon" aria-hidden="true"></span><input type="search" id="search" placeholder="Поиск по заявкам" aria-label="Поиск по заявкам"></label>
+              <span class="list-count" id="list-count">0</span>
+            </div>
+            <div class="list-heading"><span id="filter-title">Все заявки</span><span>Сначала новые</span></div>
+            <div class="ticket-list" id="ticket-list" aria-label="Список заявок" aria-busy="true"></div>
+          </div>
+          <article class="detail-pane" id="detail" aria-label="Выбранная заявка"></article>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="create-dialog" class="create-dialog" aria-labelledby="create-title">
+      <form id="create-form">
+        <div class="dialog-header"><div><span class="eyebrow">Служба поддержки</span><h2 id="create-title">Новая заявка</h2></div><button type="button" class="icon-button" id="close-dialog" aria-label="Закрыть окно">×</button></div>
+        <label class="field">Тема<input name="title" required placeholder="Коротко опиши проблему" autocomplete="off"></label>
+        <label class="field">Описание<textarea name="description" required rows="5" placeholder="Что случилось? Какие действия приводят к ошибке?"></textarea></label>
+        <label class="field">Автор<input name="author" required placeholder="Твоё имя" autocomplete="name"></label>
+        <p class="form-error" id="create-error" role="alert" hidden></p>
+        <div class="dialog-footer"><button type="button" class="button button-secondary" id="cancel-create">Отмена</button><button type="submit" class="button button-primary" id="create-submit">Создать заявку</button></div>
+      </form>
+    </dialog>
+
+    <dialog id="delete-dialog" class="delete-dialog" aria-labelledby="delete-title">
+      <form id="delete-form"><h2 id="delete-title">Удалить заявку?</h2><p id="delete-description"></p><p class="form-error" id="delete-error" role="alert" hidden></p><div class="dialog-footer"><button type="button" id="cancel-delete" class="button button-secondary">Отмена</button><button type="submit" id="delete-submit" class="button button-danger">Удалить</button></div></form>
+    </dialog>
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  </body>
+</html>
